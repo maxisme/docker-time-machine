@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  samba:
+    container_name: samba
+    restart: always
+    ports:
+      - '139:139'
+      - '445:445'
+    volumes:
+      - './samba.conf:/samba.conf'
+      - '${MNT:?err}:/mnt/time-machine/'
+    command: "-p -I /samba.conf -u \"${USER:?err};${PASS:?err}\" -s \"samba;/mnt/time-machine/;yes;no;no;$USER\""
+    image: dperson/samba
